@@ -1,0 +1,22 @@
+
+------- DATASOURCE ------------------------------------
+<datasource jndi-name="java:jboss/hackathonDS" pool-name="hackathonDS" enabled="true" use-java-context="true">
+	<connection-url>jdbc:mysql://localhost:3306/bd_pessoas_hackathon</connection-url>
+	<driver>com.mysql</driver>
+	<pool>
+		<min-pool-size>10</min-pool-size>
+		<max-pool-size>100</max-pool-size>
+		<prefill>true</prefill>
+	</pool>
+	<security>
+		<user-name>_USER_</user-name>
+		<password>_PASS_</password>
+	</security>
+</datasource>
+
+
+
+---- DRIVER MYSQL --------------------------
+ <driver name="com.mysql" module="com.mysql">
+	<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+</driver>
