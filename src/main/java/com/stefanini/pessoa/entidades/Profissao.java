@@ -38,6 +38,7 @@ public class Profissao implements Serializable,IEntity {
 	@Column(name="ID_LINGUAGEM")
 	private Long idLinguage;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -69,6 +70,12 @@ public class Profissao implements Serializable,IEntity {
 	public void setIdLinguage(Long idLinguage) {
 		this.idLinguage = idLinguage;
 	}
+
+	//--------------------------------------------------------
+	
+	
+	
+	
 	
 
 }

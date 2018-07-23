@@ -16,10 +16,8 @@ import com.stefanini.pessoa.ejbs.interfaces.CargoEjbLocal;
 import com.stefanini.pessoa.ejbs.interfaces.LinguagemEjbLocal;
 import com.stefanini.pessoa.ejbs.interfaces.PessoaEjbLocal;
 import com.stefanini.pessoa.ejbs.interfaces.ProfissaoEjbLocal;
-import com.stefanini.pessoa.entidades.Cargo;
-import com.stefanini.pessoa.entidades.Linguagem;
-import com.stefanini.pessoa.entidades.Pessoa;
 import com.stefanini.pessoa.entidades.Profissao;
+import com.stefanini.pessoa.entidades.ProfissaoJson;
 
 @Stateless
 @Path("profissao")
@@ -50,25 +48,26 @@ public class ProfissaoController {
 	@Path("/list")
 	public Response  getList() {
 		List<Profissao> list = service.findAll();
-		StringBuffer sb = new StringBuffer("<pre>");		
+		//StringBuffer sb = new StringBuffer("");	
+		List<ProfissaoJson> json = new ArrayList<>();
 		
 		list.forEach(l->{
-			Cargo cargo = cargoService.getById(l.getIdCargo());
-			Pessoa pessoa = pessoaService.getById(l.getIdPessoa());
-			Linguagem linguagem =linguagemService.getById(l.getIdLinguage());
-			
-			sb.append("NOME:"+pessoa.getNome()+"  "
+			json.add(new ProfissaoJson(
+					pessoaService.getById(l.getIdPessoa()),
+					cargoService.getById(l.getIdCargo()),
+					linguagemService.getById(l.getIdLinguage())
+					));			
+			/*sb.append("NOME:"+pessoa.getNome()+"  "
 					+ "CPF:"+pessoa.getCpf()
 					+"  EMAIL:"+pessoa.getEmail() 
 					+"  TELEFONE: "+pessoa.getTelefone() 
 					+ " CARGO:"+cargo.getDescCargo()
-					+" LINGUAGEM:"+linguagem.getDsLinguagem() );
-			sb.append("<br/>");	
+					+" LINGUAGEM:"+linguagem.getDsLinguagem());*/
 		});
-		sb.append("</pre>");	
+		
 		
 		return Response.ok(
-				sb
+				(new Gson()).toJson(json)
 				).build();
 	}
 	
@@ -110,7 +109,7 @@ public class ProfissaoController {
 		Profissao profissao = getProfissaoByUri(content);
 	
 		
-		//VERIFICANDO QUAIS CAMPOS ESTÃO NULOS  E PREENCHENDO COM OS VALORES JA	
+		//VERIFICANDO QUAIS CAMPOS ESTï¿½O NULOS  E PREENCHENDO COM OS VALORES JA	
 		if(profissao.getIdCargo() != null)
 			merge.setIdCargo(profissao.getIdCargo());
 		if(profissao.getIdLinguage() != null)
